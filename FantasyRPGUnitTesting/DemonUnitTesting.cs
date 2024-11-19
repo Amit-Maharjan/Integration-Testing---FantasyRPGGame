@@ -27,6 +27,7 @@ public class ADemon
             Strength = 30
         };
         sut.InflictDamage();
+        mockDamage.Received().Base = baseDamage;
         mockDamage.Received().Additional = 10;
     }
 
@@ -43,6 +44,7 @@ public class ADemon
             Strength = 30
         };
         sut.InflictDamage();
+        mockDamage.Received().Base = baseDamage;
         mockDamage.Received().Additional = 0;
     }
 }
