@@ -16,7 +16,7 @@ public class ACreature
         for (int i = 0; i < 100; i++)
         {
             var actual = sut.InflictDamage();
-            Assert.That(actual, Is.InRange(1,30));
+            Assert.That(actual.Base, Is.InRange(1,30));
         }
     }
 

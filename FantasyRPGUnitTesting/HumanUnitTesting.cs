@@ -1,4 +1,5 @@
 ﻿using FantasyRPG;
+using NSubstitute;
 
 namespace FantasyRPGUnitTesting;
 
@@ -13,16 +14,19 @@ public class AHuman
         Assert.That(race, Is.EqualTo("Human"));
     }
 
-    //[Test]
+    [Test]
     public void Has10PercentChanceOfInflictingDoubleDamage()
     {
-        //IRandom random = Substitute.For<IRandom>();
-        //random.Get(1, 30).Returns(25);
-        //Creature sut = new(random)
-        //{
-        //    Strength = 30
-        //};
-        //int baseDamage = sut.InflictDamage();
-        //Assert.That(baseDamage, Is.EqualTo(25));
+        int baseDamage = 25;
+        IRandom mockRandom = Substitute.For<IRandom>();
+        mockRandom.Get(1, 30).Returns(baseDamage); // Damage
+        mockRandom.Get(1, 100).Returns(10); // 10% chance
+        Damage mockDamage = Substitute.For<Damage>();
+        Human sut = new(mockRandom, mockDamage)
+        {
+            Strength = 30
+        };
+        sut.InflictDamage();
+        mockDamage.Received().Additional = baseDamage;
     }
 }

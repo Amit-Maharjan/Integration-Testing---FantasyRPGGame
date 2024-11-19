@@ -17,13 +17,14 @@ public class ACreature
     [Test]
     public void CanInflictABaseDamage()
     {
-        IRandom random = Substitute.For<IRandom>();
-        random.Get(1, 30).Returns(25);
-        Creature sut = new(random)
+        IRandom mockRandom = Substitute.For<IRandom>();
+        mockRandom.Get(1, 30).Returns(25);
+        Damage mockDamage = Substitute.For<Damage>();
+        Creature sut = new(mockRandom, mockDamage)
         {
             Strength = 30
         };
-        int baseDamage = sut.InflictDamage();
+        int baseDamage = sut.InflictDamage().Base;
         Assert.That(baseDamage, Is.EqualTo(25));
     }
 
@@ -32,7 +33,8 @@ public class ACreature
     {
         IRandom randomMock = Substitute.For<IRandom>();
         randomMock.Get(1, 100).Returns(89);
-        Creature sut = new(randomMock)
+        Damage mockDamage = Substitute.For<Damage>();
+        Creature sut = new(randomMock, mockDamage)
         {
             Strength = 1,
             HitPoints = 100
@@ -47,7 +49,8 @@ public class ACreature
     {
         IRandom randomMock = Substitute.For<IRandom>();
         randomMock.Get(1, 100).Returns(1);
-        Creature sut = new(randomMock)
+        Damage mockDamage = Substitute.For<Damage>();
+        Creature sut = new(randomMock, mockDamage)
         {
             Strength = 1,
             HitPoints = 100
@@ -62,7 +65,8 @@ public class ACreature
     {
         IRandom randomMock = Substitute.For<IRandom>();
         randomMock.Get(1, Arg.Any<int>()).Returns(1);
-        Creature sut = new(randomMock)
+        Damage mockDamage = Substitute.For<Damage>();
+        Creature sut = new(randomMock, mockDamage)
         {
             Strength = 1,
             HitPoints = 100

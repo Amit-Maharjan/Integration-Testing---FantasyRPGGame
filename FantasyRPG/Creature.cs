@@ -2,25 +2,29 @@
 
 public class Creature
 {
-    private IRandom _random;
+    protected IRandom _random;
+    protected Damage _damage;
 
     public Creature()
     {
         _random = new RandomGenerator();
+        _damage = new();
     }
 
-    public Creature(IRandom random)
+    public Creature(IRandom random, Damage damage)
     {
         _random = random;
+        _damage = damage;
     }
 
     public virtual string Race { get; protected set; } = "Unknown";
     public virtual int Strength { get; set; }
     public virtual int HitPoints { get; set; }
 
-    public virtual int InflictDamage()
+    public virtual Damage InflictDamage()
     {
-        return _random.Get(1, Strength);
+        _damage.Base = _random.Get(1, Strength);
+        return _damage;
     }
 
     public virtual int TakeDamage(int damage)
@@ -36,6 +40,6 @@ public class Creature
 
     public int Attack(Creature creature)
     {
-        return creature.TakeDamage(InflictDamage());
+        return creature.TakeDamage(InflictDamage().Total);
     }
 }
